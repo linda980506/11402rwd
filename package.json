@@ -1,0 +1,11 @@
+{
+  "name": "wangjie-foodtruck-ai-proxy",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "ai": "^7.0.0"
+  }
+}
