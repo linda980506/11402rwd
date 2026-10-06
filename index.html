@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4e6ce">
+<title>汪界王牌餐車日記</title>
+<style>
+:root{--ink:#4a3527;--orange:#d96e32;--dark:#a94d24;--green:#558348;--cream:#fffaf0;--line:#d9a66d}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Microsoft JhengHei","PingFang TC",system-ui,sans-serif;color:var(--ink);background:#f3e5cf}
+body{padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}
+#app{max-width:940px;margin:auto}.card{background:rgba(255,250,240,.98);border:3px solid var(--line);border-radius:24px;padding:20px;box-shadow:0 14px 35px #51351e26;margin:8px 0}
+h1{font-size:clamp(34px,8vw,56px);line-height:1.06;color:#a94d24;margin:8px 0}h2{color:#9a4c28;margin:6px 0 14px}p{line-height:1.65}
+.top{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center}.hud{display:flex;flex-wrap:wrap;gap:8px}.pill{background:#f5e3c7;padding:7px 10px;border-radius:999px;font-weight:800;font-size:13px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:center;background:linear-gradient(135deg,#fff5df,#f7d7a2 55%,#dae8c9)}
+.dogs{font-size:clamp(48px,9vw,86px);text-align:center;letter-spacing:-12px;filter:drop-shadow(0 5px 3px #5a3b2020)}
+button{border:0;border-radius:13px;background:var(--orange);color:#fff;padding:11px 16px;font:inherit;font-weight:900;box-shadow:0 4px 0 var(--dark);cursor:pointer;min-height:44px;touch-action:manipulation}
+button:active{transform:translateY(2px);box-shadow:0 2px 0 var(--dark)}button.green{background:var(--green);box-shadow:0 4px 0 #365e35}button.light{background:#fff8eb;color:#654a35;border:2px solid #d9b582;box-shadow:0 3px 0 #b7804e}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px}.dish{background:#fffdf8;color:#543d2b;border:2px solid #ead3b2;box-shadow:0 3px 0 #d8bf9b;min-height:116px}.dish.sel{outline:3px solid #85ad68;border-color:#558348;background:#f1f7e8}.emoji{font-size:38px;display:block;margin-bottom:6px}
+.dogbox{display:grid;grid-template-columns:190px 1fr;gap:16px;align-items:center}.dogface{font-size:110px;text-align:center;background:linear-gradient(#fff9e9,#f2d9ae);border:2px solid #dfbc87;border-radius:22px;padding:15px}.bubble{background:#fff;border:2px solid #e6c494;border-radius:18px 18px 18px 5px;padding:14px;line-height:1.6}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:8px}.info div{padding:10px;border-radius:13px;background:#f6ecd9}.bar{height:18px;background:#eadcc6;border-radius:999px;overflow:hidden;border:2px solid #d7c2a3}.bar>i{display:block;height:100%;background:linear-gradient(90deg,#e78355,#f2c45d,#76af63);width:100%}
+.ingredients{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px}.ing{background:#b77946;box-shadow:0 3px 0 #87542f}.ing.sel{background:#558348;box-shadow:0 3px 0 #365e35}
+.heat{height:44px;border-radius:14px;background:linear-gradient(90deg,#e98566 0 28%,#f0c35d 28% 42%,#72b061 42% 66%,#e87755 66% 82%,#c94d3d 82%);position:relative;border:3px solid #fff7e7;box-shadow:0 3px 0 #b78d5b;margin:18px 0}.needle{position:absolute;top:-8px;bottom:-8px;width:8px;background:#5b3421;border:2px solid #fff;border-radius:5px;left:0}
+.score{font-size:64px;font-weight:1000;color:var(--orange);text-align:center}.receipt{background:#fffdf8;border-radius:15px;padding:13px;line-height:1.9}.center{text-align:center}.muted{color:#80684f;font-size:13px}
+@media(max-width:650px){.hero{grid-template-columns:1fr}.dogs{grid-row:2}.dogbox{grid-template-columns:1fr}.dogface{font-size:82px;padding:8px}.info{grid-template-columns:1fr}.card{padding:15px;border-radius:19px}.grid{grid-template-columns:repeat(2,1fr)}button{font-size:15px}}
+</style>
+</head>
+<body><main id="app"></main>
+<script>
+const $=s=>document.querySelector(s),app=$('#app');
+const dishes={
+ rainbow:{n:'彩虹三明治',e:'🥪',p:60,i:['🍞 吐司','🍅 番茄','🥬 生菜','🧀 起司']},
+ chicken:{n:'鮮蔬雞肉飯',e:'🍚',p:75,i:['🍚 白飯','🍗 雞肉','🥬 生菜']},
+ star:{n:'星星吐司',e:'🍞',p:45,i:['🍞 吐司','🥚 蛋','🧀 起司']},
+ moon:{n:'月光果汁',e:'🥤',p:40,i:['🍓 水果','🥛 牛奶','🍯 蜂蜜']},
+ pumpkin:{n:'南瓜濃湯',e:'🍲',p:55,i:['🎃 南瓜','🥛 牛奶']},
+ riceball:{n:'蔬菜飯糰',e:'🍙',p:50,i:['🍚 白飯','🌿 海苔','🥬 生菜']},
+ pancake:{n:'水果鬆餅',e:'🥞',p:85,i:['🥣 麵粉','🥚 蛋','🥛 牛奶','🍓 水果']}
+};
+const dogs=[
+ {n:'小金',b:'黃金獵犬',e:'🐕',pat:40,l:['chicken','pancake'],h:['moon'],t:'開朗熱情'},
+ {n:'奶霜',b:'薩摩耶',e:'🐶',pat:45,l:['rainbow','star'],h:['chicken'],t:'溫柔細心'},
+ {n:'豆豆',b:'柯基',e:'🐕',pat:25,l:['pancake','riceball'],h:['pumpkin'],t:'貪吃急性子'},
+ {n:'伯爵',b:'貴賓犬',e:'🐩',pat:38,l:['pumpkin','moon'],h:['rainbow'],t:'講究、有標準'},
+ {n:'阿柴',b:'柴犬',e:'🐕',pat:35,l:['riceball','moon'],h:['pancake'],t:'慢熟、外冷內熱'}
+];
+const base={day:1,coins:180,rep:0,served:0,best:0};
+let st=load(),cur=null,selected=null,chosen=[],patTimer=null,heatTimer=null,heatPos=0,heatDir=1;
+function load(){try{return {...base,...JSON.parse(localStorage.getItem('dogTruckSave')||'{}')}}catch{return {...base}}}
+function save(){localStorage.setItem('dogTruckSave',JSON.stringify(st))}
+function reset(){if(confirm('確定要清除所有進度嗎？')){localStorage.removeItem('dogTruckSave');st={...base};title()}}
+function hud(){return '<div class="top"><div class="hud"><span class="pill">第 '+st.day+' 天</span><span class="pill">🪙 '+st.coins+'</span><span class="pill">⭐ '+st.rep+'</span></div><button class="light" onclick="reset()">重新開始</button></div>'}
+function title(){clear();app.innerHTML='<section class="card hero"><div><span class="pill">AI 互動 × 狗狗角色 × 餐車經營</span><h1>汪界王牌<br>餐車日記</h1><p>接待狗狗顧客、研究口味、挑選食材、掌握火候，把公園旁的小餐車經營成汪界王牌！</p><button onclick="startDay()">開始營業</button></div><div class="dogs">🐕🐶🐩</div></section><section class="card">'+hud()+'<p class="center muted">手機版會自動儲存進度；同一瀏覽器再次開啟即可繼續累積金幣與口碑。</p></section>'}
+function startDay(){st.served=0;st.best=0;save();nextDog()}
+function nextDog(){clear();if(st.served>=5)return summary();const d=dogs[Math.floor(Math.random()*dogs.length)],keys=Object.keys(dishes),k=keys[Math.floor(Math.random()*keys.length)];cur={d,k,start:Date.now(),left:d.pat};selected=null;chosen=[];customer()}
+function customer(){clear();const d=cur.d,di=dishes[cur.k];app.innerHTML='<section class="card">'+hud()+'<div class="dogbox"><div class="dogface">'+d.e+'</div><div><h2>'+d.n+'｜'+d.b+'</h2><div class="bubble">汪！今天想吃「'+di.n+'」，麻煩老闆了！</div><div class="info"><div>個性：'+d.t+'</div><div>喜歡：'+d.l.map(x=>dishes[x].n).join('、')+'</div></div><p class="muted">耐心值</p><div class="bar"><i id="pat"></i></div><div class="center" style="margin-top:14px"><button onclick="kitchen()">開始接單</button></div></div></div></section>';patTimer=setInterval(()=>{cur.left-=.2;const p=Math.max(0,cur.left/cur.d.pat*100),el=$('#pat');if(el)el.style.width=p+'%';if(cur.left<=0){clear();walkout()}},200)}
+function kitchen(){clearInterval(patTimer);app.innerHTML='<section class="card">'+hud()+'<h2>🍽️ 選擇料理</h2><p>顧客指定：<b>'+dishes[cur.k].n+'</b></p><div class="grid">'+Object.entries(dishes).map(([k,d])=>'<button class="dish" id="d-'+k+'" onclick="pickDish(\''+k+'\')"><span class="emoji">'+d.e+'</span>'+d.n+'<br><small>'+d.p+' 金</small></button>').join('')+'</div><div class="center" style="margin-top:14px"><button class="green" onclick="ingredients()">確認料理</button></div></section>'}
+function pickDish(k){selected=k;document.querySelectorAll('.dish').forEach(x=>x.classList.remove('sel'));$('#d-'+k).classList.add('sel')}
+function ingredients(){if(!selected)return alert('請先選一份料理');const d=dishes[selected],pool=[...new Set(Object.values(dishes).flatMap(x=>x.i))];app.innerHTML='<section class="card">'+hud()+'<h2>'+d.e+' '+d.n+'｜選食材</h2><p>配方提示：'+d.i.join('、')+'</p><div class="ingredients">'+pool.map((x,i)=>'<button class="ing" id="i-'+i+'" onclick="toggleIng('+i+',\''+x+'\')">'+x+'</button>').join('')+'</div><div class="center" style="margin-top:14px"><button class="green" onclick="cook()">開始料理</button></div></section>'}
+function toggleIng(i,x){const p=chosen.indexOf(x);p>=0?chosen.splice(p,1):chosen.push(x);$('#i-'+i).classList.toggle('sel')}
+function cook(){if(!chosen.length)return alert('至少選一項食材');app.innerHTML='<section class="card">'+hud()+'<h2>🔥 掌握火候</h2><p class="center muted">指針進入綠色區間時按下「完成料理」</p><div class="heat"><i class="needle" id="needle"></i></div><div class="center"><button onclick="finishCook()">完成料理</button></div></section>';heatPos=0;heatDir=1;heatTimer=setInterval(()=>{heatPos+=heatDir*1.4;if(heatPos>=98||heatPos<=0)heatDir*=-1;const n=$('#needle');if(n)n.style.left=heatPos+'%'},24)}
+function finishCook(){clearInterval(heatTimer);const recipe=dishes[selected].i,correct=recipe.filter(x=>chosen.includes(x)).length,extra=chosen.filter(x=>!recipe.includes(x)).length,ingScore=Math.max(0,Math.round(correct/recipe.length*35-extra*5)),orderScore=selected===cur.k?35:8,heatScore=heatPos>=42&&heatPos<=66?30:heatPos>=28&&heatPos<=82?18:6,total=Math.min(100,orderScore+ingScore+heatScore),bonus=cur.d.l.includes(selected)?8:cur.d.h.includes(selected)?-8:0,score=Math.max(0,Math.min(100,total+bonus)),earn=Math.max(10,Math.round(dishes[selected].p*(.55+score/140))),rep=Math.max(0,Math.round((score-45)/8));st.coins+=earn;st.rep+=rep;st.served++;st.best=Math.max(st.best,score);save();result(score,earn,rep,orderScore,ingScore,heatScore)}
+function result(score,earn,rep,a,b,c){const msg=score>=85?'尾巴搖到停不下來！太好吃了！':score>=65?'好吃！下次還會再來。':'嗯……和我想像的不太一樣。';app.innerHTML='<section class="card">'+hud()+'<div class="dogbox"><div class="dogface">'+cur.d.e+'</div><div><h2>'+cur.d.n+' 的反應</h2><div class="score">'+score+'<small style="font-size:.35em">%</small></div><div class="bubble">'+msg+'</div><div class="receipt">訂單符合：'+a+' 分<br>食材選擇：'+b+' 分<br>火候掌握：'+c+' 分<br><b>🪙 +'+earn+'　⭐ +'+rep+'</b></div><div class="center" style="margin-top:14px"><button class="green" onclick="nextDog()">下一位顧客</button></div></div></div></section>'}
+function walkout(){st.served++;save();app.innerHTML='<section class="card">'+hud()+'<div class="dogbox"><div class="dogface">'+cur.d.e+'</div><div><h2>😢 '+cur.d.n+' 等太久先離開了</h2><div class="bubble">下次動作要快一點喔！</div><button onclick="nextDog()">下一位顧客</button></div></div></section>'}
+function summary(){clear();app.innerHTML='<section class="card">'+hud()+'<h2>🌙 第 '+st.day+' 天營業結算</h2><div class="receipt">今日服務：'+st.served+' 位顧客<br>今日最高滿意度：'+st.best+'%<br>目前金幣：'+st.coins+'<br>目前口碑：'+st.rep+'</div><div class="center" style="margin-top:16px"><button class="green" onclick="newDay()">開始第 '+(st.day+1)+' 天</button></div></section>'}
+function newDay(){st.day++;save();startDay()}function clear(){clearInterval(patTimer);clearInterval(heatTimer)}
+window.addEventListener('pagehide',save);title();
+</script></body></html>
