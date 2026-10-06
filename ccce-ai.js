@@ -136,7 +136,7 @@
   function statusMarkup() {
     const live = isEndpointConfigured();
     return '<span class="ccce-ai-status ' + (live ? 'live' : 'fallback') + '">' +
-      (live ? '● AI 端點已設定' : '● Fallback 備援模式') + '</span>';
+      (live ? '● AI NPC 已連線' : '● Fallback 備援模式') + '</span>';
   }
 
   function enhanceTitle() {
@@ -225,19 +225,9 @@
       '<h2>AI NPC 技術說明</h2>' +
       '<p>AI 只負責「角色回應文字」。滿意度、金幣、口碑、目標、火候與勝負判定仍由固定 JavaScript 規則計算，避免 AI 改變遊戲公平性。</p>' +
       '<div class="ccce-ai-flow"><span>玩家料理</span><span>固定規則評分</span><span>組合 NPC 情境</span><span>安全 AI 端點</span><span>角色回應／Fallback</span></div>' +
-      '<div class="ccce-ai-note"><strong>送給 AI 的資料：</strong>角色個性、當下心情、點餐與實際餐點、料理結果、滿意度，以及該熟客過往來店紀錄。<br><strong>安全設計：</strong>API 金鑰不放在 GitHub Pages。瀏覽器只呼叫自有的 HTTPS 代理端點；斷網、逾時或錯誤時自動使用原本角色台詞。</div>' +
-      '<div class="ccce-ai-config"><strong>開發者端點設定</strong><small>正式 HTTPS 端點已內建。此欄位只用於開發測試時覆寫代理網址，不會儲存任何 API key。</small><input id="ccce-endpoint-input" type="url" inputmode="url" placeholder="https://your-secure-ai-proxy.example/api/npc" value="' + escapeHtml(configuredEndpoint()) + '"><div class="ccce-ai-actions"><button id="ccce-save-endpoint" class="green" type="button">儲存端點</button><button data-ccce-close type="button">關閉</button></div></div>'
+      '<div class="ccce-ai-note"><strong>送給 AI 的資料：</strong>角色個性、當下心情、點餐與實際餐點、料理結果、滿意度，以及該熟客過往來店紀錄。<br><strong>安全設計：</strong>API 金鑰只保存在伺服器端環境變數，不會出現在 GitHub Pages 或玩家瀏覽器；斷網、逾時或錯誤時自動使用原本角色台詞。</div>' +
+      '<div class="center"><button data-ccce-close type="button">關閉</button></div>'
     );
-    overlay.querySelector('#ccce-save-endpoint')?.addEventListener('click', () => {
-      const value = overlay.querySelector('#ccce-endpoint-input')?.value.trim() || '';
-      if (value && !/^https:\/\//i.test(value) && !/^http:\/\/localhost(?::\d+)?/i.test(value)) {
-        alert('正式端點請使用 HTTPS。');
-        return;
-      }
-      try { localStorage.setItem(STORAGE_ENDPOINT, value); } catch {}
-      overlay.remove();
-      if (gameScreen === 'title') showTitle();
-    });
   }
 
   async function showABDialog() {
