@@ -180,7 +180,14 @@ export default async function handler(req, res) {
         type: clip(payload?.error?.type || '', 60) || null,
         code: clip(payload?.error?.code || '', 80) || null
       });
-      return json(res, 503, { error: 'ai_temporarily_unavailable' }, origin);
+      return json(res, 503, {
+        error: 'ai_temporarily_unavailable',
+        diagnostic: {
+          status: response.status,
+          type: clip(payload?.error?.type || '', 60) || null,
+          code: clip(payload?.error?.code || '', 80) || null
+        }
+      }, origin);
     }
 
     const reply = clip(extractOutputText(payload), 120);
