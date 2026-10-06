@@ -4,8 +4,5 @@
   "type": "module",
   "engines": {
     "node": ">=20"
-  },
-  "dependencies": {
-    "ai": "^7.0.0"
   }
 }
