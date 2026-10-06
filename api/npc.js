@@ -94,6 +94,14 @@ function rateLimited(req) {
   return current.count > MAX_REQUESTS;
 }
 
+function diagnostic(error) {
+  return {
+    name: clip(error?.name || error?.constructor?.name || 'Error', 60),
+    code: clip(error?.code || error?.cause?.code || '', 80) || null,
+    statusCode: Number(error?.statusCode || error?.status || error?.cause?.statusCode || 0) || null
+  };
+}
+
 export default async function handler(req, res) {
   const origin = String(req.headers.origin || '');
 
@@ -141,7 +149,8 @@ export default async function handler(req, res) {
     if (!reply) return json(res, 502, { error: 'empty_model_output' }, origin);
     return json(res, 200, { reply }, origin);
   } catch (error) {
-    console.error('npc_generation_failed', error instanceof Error ? error.message : 'unknown');
-    return json(res, 503, { error: 'ai_temporarily_unavailable' }, origin);
+    const diag = diagnostic(error);
+    console.error('npc_generation_failed', diag);
+    return json(res, 503, { error: 'ai_temporarily_unavailable', diagnostic: diag }, origin);
   }
 }
