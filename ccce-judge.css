@@ -165,3 +165,22 @@
   .ccce-ai-flow span { min-height: 44px; }
   .ccce-ab-grid { grid-template-columns: 1fr; }
 }
+
+
+/* AI depth + onsite stability */
+.ccce-ai-status.checking{background:#fff0c9;color:#85622c;border:1px solid #e0c27d}
+.ccce-health-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin:10px 0;padding:10px 12px;border:1px solid #dfcba8;border-radius:13px;background:#fffdf8}
+.ccce-health-row strong{color:#6b4b31}.ccce-health-meta{color:#7e694f;font-size:12px}
+.ccce-evidence-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0}
+.ccce-evidence-card{padding:12px;border:1px solid #dec8a5;border-radius:15px;background:#fffdf8}
+.ccce-evidence-card strong{display:block;margin-bottom:5px;color:#744b2e}.ccce-evidence-card p{margin:0;color:#725f48;font-size:13px;line-height:1.55}
+.ccce-rule-formula{margin:10px 0;padding:11px 13px;border-left:5px solid #5d884d;border-radius:10px;background:#f4f8ed;color:#4f6444;font-weight:800;line-height:1.65}
+.ccce-memory-box{margin:10px 0;padding:11px 13px;border:1px solid #d8c6a2;border-radius:13px;background:#fff8e9;font-size:13px;line-height:1.6}
+.ccce-memory-chip{display:inline-flex;align-items:center;gap:5px;margin:3px 4px 3px 0;padding:5px 8px;border-radius:999px;background:#f0e6d4;color:#6e563d;font-size:12px;font-weight:800}
+.ccce-ab-section{margin:12px 0;padding:12px;border:1px solid #dec9a8;border-radius:16px;background:#fffaf2}.ccce-ab-section h3{margin:0 0 8px;color:#744b2e}
+.ccce-ab-grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}.ccce-ab-card .scenario{display:block;margin:5px 0 8px;color:#8a7358;font-size:12px;line-height:1.45}
+.ccce-ab-output{min-height:72px;margin-top:8px;padding:9px 10px;border-radius:10px;background:#f8f3e9;color:#513f2f;line-height:1.55}
+.ccce-stability-list{display:grid;gap:8px;margin:12px 0}.ccce-stability-item{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:start;padding:9px 10px;border:1px solid #dfc9a7;border-radius:12px;background:#fffdf8}
+.ccce-stability-item b{color:#664a32}.ccce-stability-item small{display:block;margin-top:2px;color:#846e54;line-height:1.45}
+.ccce-ai-result-badge.memory{border-color:#c2a765;background:#fff5d4;color:#6b5227}
+@media(max-width:650px){.ccce-evidence-grid,.ccce-ab-grid.four{grid-template-columns:1fr}.ccce-health-row{align-items:flex-start}.ccce-stability-item{grid-template-columns:24px 1fr}}
